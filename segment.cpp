@@ -5,6 +5,8 @@
 #include <cmath>       /* sqrt */
 #include <numeric>      
 
+	
+
 using namespace std;
 
 typedef long long int ll;
@@ -31,6 +33,25 @@ int* reserve_memory(int arr[], int n, int* height) {
 	return seg;
 }
 
+void debug_printer(int size, int*seg) {
+	for (int i = 0; i < size; i++) {
+		cout << seg[i] << ' ';
+	}	
+}
+
+void query(int type, int l, int r, int* st, int size) {
+	if (type == 1) {
+		// set index l to r and recalculate the tree.
+		st[l] = r;
+		
+		// Dont remove below line, infinite recursion.
+		if (l == 0) { return;}
+		query(1, (l-1) / 2, st[l] + st[l+1], st, size);
+	}
+}
+
+
+
 int main() {
 
 	int arr[] = {3, 1, 2, 5, 6, 8, 3, 2};  
@@ -38,10 +59,13 @@ int main() {
 	int size = 1;  
 	int* seg = reserve_memory(arr, n, &size);
 	
-	cout << size << endl;
-	for (int i = 0; i < 15; i++) {
-		cout << seg[i] << ' ';
-	}
+
+	debug_printer(size, seg);
+		
+	query(1, 7, 6, seg, size);
+	cout << endl << "After change" << endl;
 	
+	debug_printer(size, seg);
+		
 	return 0; 
 }
