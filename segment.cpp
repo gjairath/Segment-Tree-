@@ -50,7 +50,19 @@ void query(int type, int l, int r, int* st, int size) {
 	}
 }
 
-
+int query_sum(int index, int start, int end, int l, int r, int *st) {
+	
+	if (start >= l && end <= r) {
+		return st[index];
+	}
+ 	
+ 	if (end < l || start > r) {
+ 		return 0;	
+	}
+ 	int mid = (start + end) /2;
+ 	return query_sum(2*index+1, start, mid, l, r ,st) + query_sum(2*index + 2, mid + 1, end, l, r, st);
+ 	
+}
 
 int main() {
 
@@ -62,10 +74,13 @@ int main() {
 
 	debug_printer(size, seg);
 		
-	query(1, 7, 6, seg, size);
-	cout << endl << "After change" << endl;
+//	query(1, 7, 6, seg, size);
+//	cout << endl << "After change" << endl;
 	
-	debug_printer(size, seg);
-		
+//	debug_printer(size, seg);
+	//	sum = query_sum(0, 0, size - 1, 0, 7, seg);
+
+//	cout << size - 1;
+	cout << endl << "Sum :" << query_sum(0, 0, n - 1, 0, 7, seg);
 	return 0; 
 }
