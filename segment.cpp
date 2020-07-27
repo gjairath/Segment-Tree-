@@ -81,6 +81,6 @@ int main() {
 	//	sum = query_sum(0, 0, size - 1, 0, 7, seg);
 
 //	cout << size - 1;
-	cout << endl << "Sum :" << query_sum(0, 0, n - 1, 0, 7, seg);
+	cout << endl << "Sum :" << query_sum(0, 0, n - 1, 1, 3, seg);
 	return 0; 
 }
