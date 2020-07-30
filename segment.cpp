@@ -78,29 +78,30 @@ void query(int type, int l, int r, int* st, int size) {
 int main() {
 
 	
-//	int n; // no of queries
-//	int queries; // no of elements
+	int n; // no of elemnets
+	int queries; // 
 	
-//	cin >> n >> queries;
+	cin >> n >> queries;
 	
-	//int arr[n];
-	/*
+	int next = pow(2, ceil(log(n)/log(2))); // Find nearest power 2 for the sexy tree
+
+	int arr[next] = {0};
+
 	for (int i = 0; i < n; i++) {
 		int tmp;
 		cin >> tmp;
 		arr[i] = tmp;
 	}
-	*/
-	int arr[8] = {5, 4, 2, 3, 5, 0, 0, 0};
+	
 	
 	int size = 1;      
 	int nn = sizeof(arr) / sizeof(arr[0]);
 	int* seg = reserve_memory(arr, nn, &size);	
 	
-	/*
 	
-	int result[queries];
-	
+	int result[queries] = {-1};
+	fill_n(result, queries, -1);
+
 	
 	for (int i = 0; i < queries; i ++) {
 		int type;
@@ -108,25 +109,20 @@ int main() {
 		int r;
 		cin >> type >> l >> r;
 		if (type == 1) {
-			query(1, l, r, seg, size);
+			query(1, l + next - 1, r, seg, nn);
+			//debug_printer(size, seg);
 		} else if (type == 2) {
-			result[i] = query_sum(0, 0, size - 1, l, r, seg);		
+			result[i] = query_sum(0, 0, nn - 1, l, r - 1, seg);		
+			//debug_printer(size, seg);
+
 		}
 	}
 	cout << endl;
 	for (int i = 0; i < queries; i++) {
-		cout << result[i] << endl;
-	}
-	*/
-	
-	//cout << size;
-	debug_printer(size,seg);
-	cout << query_sum(0, 0, nn - 1, 0, 3 - 1, seg) << endl;
-	query(1, 1 + 8 - 1, 1, seg, nn);
-	debug_printer(size, seg);
-	cout << query_sum(0, 0, nn - 1, 0, 3 - 1, seg) << endl; // should be 8
-
-	
-//	cout << endl << "Sum :" << query_sum(0, 0, n - 1, 1, 3, seg);
+		if (result[i] != -1) {
+		
+			cout << result[i] << endl;
+		}
+	}	
 	return 0; 
 }
