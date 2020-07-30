@@ -63,9 +63,17 @@ void modify(int p, int value) {  // set value at position p
 
 void query(int type, int l, int r, int* st, int size) {
 
-
+	st[l] = r;
+	
+	if (l == 0 ) return;
+	if (l % 2 == 0) {
+		query(1, (l-2)/2, st[l] + st[l-1],st , size);
+	} else if (l % 2 != 0) {
+	
+		query(1, (l-1)/2, st[l] + st[l+1], st, size);
+	}
+	//if (l == 0) { return;}
 }
-
 
 int main() {
 
@@ -114,7 +122,7 @@ int main() {
 	//cout << size;
 	debug_printer(size,seg);
 	cout << query_sum(0, 0, nn - 1, 0, 3 - 1, seg) << endl;
-	query(1, 1, 1, seg, nn);
+	query(1, 1 + 8 - 1, 1, seg, nn);
 	debug_printer(size, seg);
 	cout << query_sum(0, 0, nn - 1, 0, 3 - 1, seg) << endl; // should be 8
 
