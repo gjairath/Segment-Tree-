@@ -57,6 +57,22 @@ int query_sum(int index, int start, int end, int l, int r, int *st) {
  	return query_sum(2*index+1, start, mid, l, r ,st) + query_sum(2*index + 2, mid + 1, end, l, r, st);
  	
 }
+
+int query_no_mins(int index, int start, int end, int l, int r, int *st) {
+	
+	if (start >= l && end <= r) {
+		return st[index];
+	}
+ 	
+ 	if (end < l || start > r) {
+ 		return 0;	
+	}
+ 	int mid = (start + end) /2;
+ 	return query_no_mins(2*index+1, start, mid, l, r ,st) < query_no_mins(2*index + 2, mid + 1, end, l, r, st);
+ 	
+}
+
+
 void modify(int p, int value) {  // set value at position p
   //for (t[p += n] = value; p > 1; p >>= 1) t[p>>1] = t[p] + t[p^1];
 }
@@ -112,7 +128,7 @@ int main() {
 			query(1, l + next - 1, r, seg, nn);
 			//debug_printer(size, seg);
 		} else if (type == 2) {
-			result[i] = query_sum(0, 0, nn - 1, l, r - 1, seg);		
+			result[i] = query_no_mins(0, 0, nn - 1, l, r - 1, seg);		
 			//debug_printer(size, seg);
 
 		}
