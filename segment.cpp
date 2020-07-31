@@ -108,13 +108,27 @@ void query(int type, int l, int r, int* st, int size) {
 }
 
 int main() {
-	int arr[8] = {3,3,3,5,2,100000,10000,10000};
+	int arr[8] = {3,3,1,5,2,10000,10000,10000};
 	int nn = sizeof(arr) / sizeof(arr[0]);
 	int size = 1;
 	int* seg = reserve_memory(arr, nn, &size);
 	debug_printer(size, seg);
-	cout << query_no_mins(0, 0, nn - 1, 0, 4, seg); // l and r are according to arrays
 	
+	int l = 0;
+	int r = 1;
+	
+	int min = query_no_mins(0, 0, nn - 1, l, r, seg); // l and r are according to arrays
+	
+	cout << endl << "The minimum from index 1 to index 3 (as per arrays)" << endl;
+	int count = 0;
+	for (int i = l + nn - 1; i <= r + nn - 1; i++){
+		if (seg[i] == min) {
+			count++;
+		}
+	}
+	cout << min << " Occurs: " << count;
+ 	
+	//  UNCOMMENT BELOW FOR USER INPUT
 	/*
 	int n; // no of elemnets
 	int queries; // 
