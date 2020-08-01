@@ -16,6 +16,9 @@ typedef long long int ll;
 int minValue(int x, int y) {
 	return (x < y) ? x : y;
 }
+int maxValue(int x, int y) {
+	return (x > y) ? x : y;
+}
 
 void debug_printer(int size, int*seg) {
 	cout << endl;
@@ -51,7 +54,7 @@ int build_tree_min (int index, int arr[], int* st, int start, int end) {
 	return st[index];
 }
 
-int* reserve_memory(int arr[], int n, int* height) {
+int* reserve_memory(int arr[], int n, int* height, bool isSum) {
 	// 2 * 2 ^ log2 N - 1 
 	
 	int exp = (int) (ceil(log2(n)));
@@ -59,7 +62,11 @@ int* reserve_memory(int arr[], int n, int* height) {
 //	*height = 2 * n;
 	int* seg = new int[*height];
 //	cout << "Height" << height;
-	build_tree_min(0, arr, seg, 0, n - 1);
+	if (isSum) {
+		build_tree_sum(0, arr, seg, 0, n - 1);
+	}else {
+		build_tree_min(0, arr, seg, 0, n - 1);
+	}
 	return seg;
 }
 
@@ -77,6 +84,20 @@ int query_sum(int index, int start, int end, int l, int r, int *st) {
  	return query_sum(2*index+1, start, mid, l, r ,st) + query_sum(2*index + 2, mid + 1, end, l, r, st);
  	
 }
+
+int query_max_sums(int index, int start, int end, int l, int r, int *st) {
+	if (start >= l && end <= r) {
+		return st[index];
+	}
+	if (end < l || start > r) {
+ 		return INT_MAX;	
+	}
+ 	int mid = (start + end) /2;
+ 	//cout << mid;
+	
+	return maxValue( query_max_sums(2*index+1, start, mid, l, r ,st), query_max_sums(2*index + 2, mid + 1, end, l, r, st) );
+}
+
 
 int query_no_mins(int index, int start, int end, int l, int r, int *st) {
 	
@@ -107,26 +128,32 @@ void query(int type, int l, int r, int* st, int size) {
 	//if (l == 0) { return;}
 }
 
-int main() {
-	int arr[8] = {3,3,1,5,2,10000,10000,10000};
-	int nn = sizeof(arr) / sizeof(arr[0]);
-	int size = 1;
-	int* seg = reserve_memory(arr, nn, &size);
-	debug_printer(size, seg);
-	
-	int l = 0;
-	int r = 1;
-	
-	int min = query_no_mins(0, 0, nn - 1, l, r, seg); // l and r are according to arrays
-	
-	cout << endl << "The minimum from index 1 to index 3 (as per arrays)" << endl;
+int range_counter(int l, int* seg, int nn, int r, int min) {
 	int count = 0;
 	for (int i = l + nn - 1; i <= r + nn - 1; i++){
 		if (seg[i] == min) {
 			count++;
 		}
 	}
-	cout << min << " Occurs: " << count;
+	return count;
+}
+
+int main() {
+	int arr[8] = {5, -4, 4, 3, -5, 0, 0, 0};
+	int nn = sizeof(arr) / sizeof(arr[0]);
+	int size = 1;
+	bool isSum = true;
+	int* seg = reserve_memory(arr, nn, &size, isSum);
+	debug_printer(size, seg);
+	
+	int l = 0;
+	int r = 7;
+	
+	int max = query_max_sums(0, 0, nn - 1, l, r, seg); // l and r are according to arrays
+	
+	cout << endl << "The minimum sum from index 0 to index 7 (as per arrays)" << endl;
+
+	cout << max;
  	
 	//  UNCOMMENT BELOW FOR USER INPUT
 	/*
