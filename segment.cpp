@@ -85,20 +85,8 @@ int query_sum(int index, int start, int end, int l, int r, int *st) {
  	
 }
 
-int query_max_sums(int index, int start, int end, int l, int r, int *st) {
-	if (start >= l && end <= r) {
-		return st[index];
-	}
-	if (end < l || start > r) {
- 		return INT_MAX;	
-	}
- 	int mid = (start + end) /2;
- 	//cout << mid;
-	
-	return maxValue( query_max_sums(2*index+1, start, mid, l, r ,st), query_max_sums(2*index + 2, mid + 1, end, l, r, st) );
-}
 
-
+// Find the minimum in a particular range
 int query_no_mins(int index, int start, int end, int l, int r, int *st) {
 	
 	if (start >= l && end <= r) {
@@ -113,7 +101,7 @@ int query_no_mins(int index, int start, int end, int l, int r, int *st) {
 	return minValue( query_no_mins(2*index+1, start, mid, l, r ,st), query_no_mins(2*index + 2, mid + 1, end, l, r, st) );
 }
 
-// Updates value 
+// Updates value based on index
 void query(int type, int l, int r, int* st, int size) {
 
 	st[l] = r;
@@ -128,6 +116,7 @@ void query(int type, int l, int r, int* st, int size) {
 	//if (l == 0) { return;}
 }
 
+// Find occurances of a specific value
 int range_counter(int l, int* seg, int nn, int r, int min) {
 	int count = 0;
 	for (int i = l + nn - 1; i <= r + nn - 1; i++){
@@ -138,71 +127,19 @@ int range_counter(int l, int* seg, int nn, int r, int min) {
 	return count;
 }
 
-int main() {
-	int arr[8] = {5, -4, 4, 3, -5, 0, 0, 0};
-	int nn = sizeof(arr) / sizeof(arr[0]);
-	int size = 1;
-	bool isSum = true;
-	int* seg = reserve_memory(arr, nn, &size, isSum);
-	debug_printer(size, seg);
-	
-	int l = 0;
-	int r = 7;
-	
-	int max = query_max_sums(0, 0, nn - 1, l, r, seg); // l and r are according to arrays
-	
-	cout << endl << "The minimum sum from index 0 to index 7 (as per arrays)" << endl;
 
-	cout << max;
- 	
-	//  UNCOMMENT BELOW FOR USER INPUT
-	/*
-	int n; // no of elemnets
-	int queries; // 
-	
-	cin >> n >> queries;
-	
-	int next = pow(2, ceil(log(n)/log(2))); // Find nearest power 2 for the sexy tree
-
-	int arr[next] = {0};
-
-	for (int i = 0; i < n; i++) {
-		int tmp;
-		cin >> tmp;
-		arr[i] = tmp;
+// Find the max sum on a subsegment
+int query_max_sums(int index, int start, int end, int l, int r, int *st) {
+	if (start >= l && end <= r) {
+		return st[index];
 	}
-	
-	
-	int size = 1;      
-	int nn = sizeof(arr) / sizeof(arr[0]);
-	int* seg = reserve_memory(arr, nn, &size);	
-	
-	
-	int result[queries] = {-1};
-	fill_n(result, queries, -1);
-
-	
-	for (int i = 0; i < queries; i ++) {
-		int type;
-		int l;
-		int r;
-		cin >> type >> l >> r;
-		if (type == 1) {
-			query(1, l + next - 1, r, seg, nn);
-			//debug_printer(size, seg);
-		} else if (type == 2) {
-			result[i] = query_no_mins(0, 0, nn - 1, l, r - 1, seg);		
-			//debug_printer(size, seg);
-
-		}
+	if (end < l || start > r) {
+ 		return INT_MAX;	
 	}
-	cout << endl;
-	for (int i = 0; i < queries; i++) {
-		if (result[i] != -1) {
-		
-			cout << result[i] << endl;
-		}
-	}	
-	*/
-	return 0; 
+ 	int mid = (start + end) /2;
+ 	//cout << mid;
+	
+	return maxValue( query_max_sums(2*index+1, start, mid, l, r ,st), query_max_sums(2*index + 2, mid + 1, end, l, r, st) );
 }
+
+
