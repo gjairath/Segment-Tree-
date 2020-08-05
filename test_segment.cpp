@@ -5,17 +5,16 @@ int main() {
 	int nn = sizeof(arr) / sizeof(arr[0]);
 	int size = 1;
 	bool isSum = true;
-	int* seg = reserve_memory(arr, nn, &size, isSum);
-	debug_printer(size, seg);
-	
+	Node* seg = reserve_memory(arr, nn, &size, isSum);
+ 	
 	int l = 0;
-	int r = 7;
-	
-	int max = query_max_sums(0, 0, nn - 1, l, r, seg); // l and r are according to arrays
+	int r = 5;
+	cout << seg -> prefixSum;
+	Node max = query_max_sums(0, 0, nn - 1, l, r, seg); // l and r are according to arrays
 	
 	cout << endl << "The minimum sum from index 0 to index 7 (as per arrays)" << endl;
 
-	cout << max;
+	cout << max.totalSum << max.prefixSum;
  	
 	//  UNCOMMENT BELOW FOR USER INPUT
 	/*
