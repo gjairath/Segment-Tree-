@@ -6,10 +6,10 @@ struct Node{
 	int totalSum;
 	
 	Node() {
-		subSum = -699999;
-		prefixSum = -69999;
-		suffixSum = -69999; 
-		totalSum = -69999;
+		subSum = 0;
+		prefixSum = 0;
+		suffixSum = 0; 
+		totalSum = 0;
 	}
 	
 };

@@ -8,13 +8,13 @@ int main() {
 	Node* seg = reserve_memory(arr, nn, &size, isSum);
  	
 	int l = 0;
-	int r = 5;
-	cout << seg -> prefixSum;
+	int r = 7;
+		
 	Node max = query_max_sums(0, 0, nn - 1, l, r, seg); // l and r are according to arrays
 	
-	cout << endl << "The minimum sum from index 0 to index 7 (as per arrays)" << endl;
+	cout << endl << "The maximum sum from index 0 to index 7 (as per arrays)" << endl;
 
-	cout << max.totalSum << max.prefixSum;
+	cout << max.subSum;
  	
 	//  UNCOMMENT BELOW FOR USER INPUT
 	/*

@@ -84,7 +84,7 @@ Node* reserve_memory(int arr[], int n, int* height, bool isSum) {
 	if (isSum) {
 		Node* seg = new Node[*height];
 		build_tree_sum(0, arr, seg, 0, n - 1);
-		//return seg;
+		return seg;
 	}
 }
 
