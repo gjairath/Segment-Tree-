@@ -1,3 +1,23 @@
+#include <cstdio>
+#include <iostream>     // std::cout
+#include <algorithm>    // std::sort
+#include <vector>       // std::vector
+#include <cmath>       /* sqrt */
+#include <numeric>      
+#include <bits/stdc++.h> 
+
+#include "Node.h"
+
+using namespace std;
+
+typedef long long int ll;
+
+int minValue(int x, int y) {
+	return (x < y) ? x : y;
+}
+int maxValue(int x, int y) {
+	return (x > y) ? x : y;
+}
 
 
 void debug_printer(int size, int*seg) {
@@ -8,7 +28,7 @@ void debug_printer(int size, int*seg) {
 	cout << endl;	
 }
 
-int build_tree_min (int index, int arr[], int* st, int start, int end) {
+int build_tree_max (int index, int arr[], int* st, int start, int end) {
 //	int* st;
 	
 	if (start == end) {
@@ -17,9 +37,22 @@ int build_tree_min (int index, int arr[], int* st, int start, int end) {
 	}
 	int mid = (start + end) / 2;
 	// Once the recursion is complete, we;ve hit the bottom of the tree so
-	st[index] = minValue(build_tree_min(2*index + 1, arr, st, start, mid), build_tree_min(2*index + 2, arr, st, mid + 1, end));
+	st[index] = maxValue(build_tree_max(2*index + 1, arr, st, start, mid), build_tree_max(2*index + 2, arr, st, mid + 1, end));
 	return st[index];
 }
+
+int* reserve_memory_max(int arr[], int n, int* height) {
+	// 2 * 2 ^ log2 N - 1 
+	
+	int exp = (int) (ceil(log2(n)));
+	*height = 2 * (int) pow(2, exp) - 1;
+	
+	int* seg = new int[*height];
+	build_tree_max(0, arr, seg, 0, n - 1);
+	return seg;
+	
+}
+
 
 int query_sum(int index, int start, int end, int l, int r, int *st) {
 	
@@ -35,6 +68,28 @@ int query_sum(int index, int start, int end, int l, int r, int *st) {
  	
 }
 
+int query_max(int index, int start, int end, int *st, int value) {
+	
+	
+
+	if (st[index] < value) {
+		return -1;
+	}
+	
+	if (end - start == 1) {
+		return index;
+	}
+	
+
+ 	int mid = (start + end) /2;
+ 
+	int res = query_max(2*index + 1, start, mid, st, value); // go to the left-most subtree
+	
+	if (res == -1) {
+		res = query_max(2*index + 2, mid + 1, end, st, value);
+	}
+	return res;
+}
 
 // Find the minimum in a particular range
 int query_no_mins(int index, int start, int end, int l, int r, int *st) {

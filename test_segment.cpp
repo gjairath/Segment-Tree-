@@ -4,18 +4,17 @@ int main() {
 	int arr[8] = {5, -4, 4, 3, -5, 0, 0, 0};
 	int nn = sizeof(arr) / sizeof(arr[0]);
 	int size = 1;
-	bool isSum = true;
-	Node* seg = reserve_memory(arr, nn, &size, isSum);
+
+	Node* seg = reserve_memory_max(arr, nn, &size, isSum);
  	
 	int l = 0;
 	int r = 7;
 		
-	Node max = query_max_sums(0, 0, nn - 1, l, r, seg); // l and r are according to arrays
 	
 	cout << endl << "The maximum sum from index 0 to index 7 (as per arrays)" << endl;
 
 	cout << max.subSum;
- 	
+	 	
 	//  UNCOMMENT BELOW FOR USER INPUT
 	/*
 	int n; // no of elemnets
