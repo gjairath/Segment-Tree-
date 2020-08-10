@@ -69,8 +69,6 @@ int query_sum(int index, int start, int end, int l, int r, int *st) {
 }
 
 int query_max(int index, int start, int end, int *st, int value) {
-	
-	
 
 	if (st[index] < value) {
 		return -1;
@@ -80,7 +78,6 @@ int query_max(int index, int start, int end, int *st, int value) {
 		return index;
 	}
 	
-
  	int mid = (start + end) /2;
  
 	int res = query_max(2*index + 1, start, mid, st, value); // go to the left-most subtree
@@ -90,6 +87,31 @@ int query_max(int index, int start, int end, int *st, int value) {
 	}
 	return res;
 }
+
+
+int query_max_2(int index, int start, int end, int l, int *st, int value) {
+
+	if (st[index] < value) {
+		return -1;
+	}
+	if (end <= l ) {
+		return  -1; 
+	}
+	
+	if (end - start == 1) {
+		return index;
+	}
+	
+ 	int mid = (start + end) /2;
+ 
+	int res = query_max_2(2*index + 1, start, mid, l, st, value); // go to the left-most subtree
+	
+	if (res == -1) {
+		res = query_max_2(2*index + 2, mid, end, l, st, value);
+	}
+	return res;
+}
+
 
 // Find the minimum in a particular range
 int query_no_mins(int index, int start, int end, int l, int r, int *st) {
